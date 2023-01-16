@@ -7,7 +7,7 @@ const redisClient = redis.createClient({
     retry_strategy: () => 1000
 });
 
-const subscriber = redis.duplicate();
+const subscriber = redisClient.duplicate();
 
 // Respond to message (integer fibonacci  input) by calculating fibonacci value
 subscriber.on('message', (channel, message) => {

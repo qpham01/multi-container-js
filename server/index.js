@@ -8,7 +8,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-app.use(bodyparser.json());
+app.use(bodyParser.json());
 
 
 // Postgres client setup
@@ -56,7 +56,7 @@ app.get('/values/current', async (req, res) => {
     });
 });
 
-app.post('/values', async (req, res) => {
+app.post('/value', async (req, res) => {
     const index = req.body.index;
     if (parseInt(index) > 40) {
         return res.status(422).send('Index too high');
