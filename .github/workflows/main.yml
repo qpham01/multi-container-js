@@ -9,18 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker build -t qpham01/client-test -f client/Dockerfile.dev ./client
-      - run: docker run -e CI=true qpham01/client-test npm test
 
-      - run: docker build -t qpham01/multi-client ./client
-      - run: docker build -t qpham01/multi-nginx ./nginx
-      - run: docker build -t qpham01/multi-server ./server
-      - run: docker build -t qpham01/multi-worker ./worker
-        # run: zip -r deploy.zip . -x '*.git*'
+      - name: Build test client
+        run: docker build -t qpham01/client-test -f client/Dockerfile.dev ./client
+      - name: Test client
+        run: docker run -e CI=true qpham01/client-test npm test
 
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker push qpham01/multi-client
-      - run: docker push qpham01/multi-nginx
-      - run: docker push qpham01/multi-server
-      - run: docker push qpham01/multi-worker
+      - name: Build production client
+        run: docker build -t qpham01/multi-client ./client
+      - name: Build production nginx
+        run: docker build -t qpham01/multi-nginx ./nginx
+      - name: Build production server
+        run: docker build -t qpham01/multi-server ./server
+      - name: Build production worker
+        run: docker build -t qpham01/multi-worker ./worker
+
+      - name: Docker login
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Push production client
+        run: docker push qpham01/multi-client
+      - name: Push production nginx
+        run: docker push qpham01/multi-nginx
+      - name: Push production server
+        run: docker push qpham01/multi-server
+      - name: Push production worker
+        run: docker push qpham01/multi-worker
