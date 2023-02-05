@@ -1,4 +1,4 @@
-name: Deploy Frontend
+name: Deploy Multi Container
 on:
   push:
     branches:
@@ -9,12 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Docker username
-        run: echo ${{ secrets.DOCKER_USERNAME }}
-
-      - name: Docker password
-        run: echo ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
