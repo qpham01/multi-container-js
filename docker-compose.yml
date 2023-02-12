@@ -24,6 +24,9 @@ services:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
   nginx:
+    depends_on:
+      - api
+      - client
     image: "qpham01/multi-nginx"
     mem_limit: 32m
     hostname: nginx
