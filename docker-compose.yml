@@ -2,11 +2,11 @@ version: "3"
 services:
   client:
     image: "qpham01/multi-client"
-    mem_limit: 32m
+    mem_limit: 64m
     hostname: client
   server:
     image: "qpham01/multi-server"
-    mem_limit: 32m
+    mem_limit: 64m
     hostname: api
     environment:
       - REDIS_HOST=$REDIS_HOST
@@ -18,7 +18,7 @@ services:
       - PGPORT=$PGPORT
   worker:
     image: "qpham01/multi-worker"
-    mem_limit: 32m
+    mem_limit: 64m
     hostname: worker
     environment:
       - REDIS_HOST=$REDIS_HOST
@@ -28,7 +28,7 @@ services:
       - api
       - client
     image: "qpham01/multi-nginx"
-    mem_limit: 32m
+    mem_limit: 64m
     hostname: nginx
     ports:
       - "80:80"

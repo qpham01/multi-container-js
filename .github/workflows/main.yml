@@ -36,6 +36,9 @@ jobs:
       - name: Push production worker
         run: docker push qpham01/multi-worker
 
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+ 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -46,4 +49,4 @@ jobs:
           existing_bucket_name: elasticbeanstalk-us-east-1-115648203036
           region: us-east-1
           version_label: ${{ github.sha }}
-          deployment_package: docker-compose.yml
+          deployment_package: deploy.zip
