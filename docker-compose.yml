@@ -8,24 +8,17 @@ services:
     image: "qpham01/multi-server"
     mem_limit: 64m
     hostname: api
-    environment:
-      - REDIS_HOST=$REDIS_HOST
-      - REDIS_PORT=$REDIS_PORT
-      - PGUSER=$PGUSER
-      - PGHOST=$PGHOST
-      - PGDATABASE=$PGDATABASE
-      - PGPASSWORD=$PGPASSWORD
-      - PGPORT=$PGPORT
+    env_file:
+      - .env
   worker:
     image: "qpham01/multi-worker"
     mem_limit: 64m
     hostname: worker
-    environment:
-      - REDIS_HOST=$REDIS_HOST
-      - REDIS_PORT=$REDIS_PORT
+    env_file:
+      - .env
   nginx:
     depends_on:
-      - api
+      - server
       - client
     image: "qpham01/multi-nginx"
     mem_limit: 64m
