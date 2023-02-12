@@ -36,6 +36,9 @@ jobs:
       - name: Push production worker
         run: docker push qpham01/multi-worker
 
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+ 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
         with:
