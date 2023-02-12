@@ -35,3 +35,15 @@ jobs:
         run: docker push qpham01/multi-server
       - name: Push production worker
         run: docker push qpham01/multi-worker
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: multi-docker
+          environment_name: Multidocker-env
+          existing_bucket_name: elasticbeanstalk-us-east-1-115648203036
+          region: us-east-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
